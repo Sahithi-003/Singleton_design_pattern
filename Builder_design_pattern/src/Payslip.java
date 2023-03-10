@@ -41,8 +41,10 @@ public class Payslip {
         private double hra;
         private double da;
         private double tax;
+        private Payslip payslip;
 
         public PayslipBuilder() {
+            payslip = new Payslip(this.basic,this.hra,this.da,this.tax);
         }
 
         public PayslipBuilder setBasic(double basic) {
@@ -66,7 +68,7 @@ public class Payslip {
         }
 
         public Payslip build() {
-            return new Payslip(basic, hra, da, tax);
+            return payslip;
         }
     }
 }
