@@ -4,28 +4,20 @@ import java.util.Map;
 
 public class OrderProcessingFactory {
 
-    private static final Map<OrderType, Class<? extends Order>> orderTypeToClassMap = new HashMap<>();
+    private static final Map<OrderType, OrderFactory> ORDER_FACTORY_MAP = new HashMap<>();
 
     static {
-        orderTypeToClassMap.put(OrderType.FOOD, FoodOrder.class);
-        orderTypeToClassMap.put(OrderType.CLOTHING, ClothingOrder.class);
-        orderTypeToClassMap.put(OrderType.ELECTRONICS, ElectronicGadgetsOrder.class);
-    }
-
-    public static void registerOrderType(OrderType orderType, Class<? extends Order> orderClass) {
-        orderTypeToClassMap.put(orderType, orderClass);
+        ORDER_FACTORY_MAP.put(OrderType.FOOD, new FoodOrderFactory());
+        ORDER_FACTORY_MAP.put(OrderType.CLOTHING, new ClothingOrderFactory());
+        ORDER_FACTORY_MAP.put(OrderType.ELECTRONICS, new ElectronicGadgetsOrderFactory());
+        ORDER_FACTORY_MAP.put(OrderType.SHOES, new ShoesOrderFactory());
     }
 
     public static Order createOrder(OrderType orderType) {
-        try {
-            Class<? extends Order> orderClass = orderTypeToClassMap.get(orderType);
-            if (orderClass == null) {
-                throw new IllegalArgumentException("Invalid order type: " + orderType);
-            }
-            Constructor<? extends Order> constructor = orderClass.getConstructor();
-            return constructor.newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create order", e);
+        OrderFactory orderFactory = ORDER_FACTORY_MAP.get(orderType);
+        if (orderFactory == null) {
+            throw new IllegalArgumentException("Invalid order type: " + orderType);
         }
+        return orderFactory.createOrder();
     }
 }

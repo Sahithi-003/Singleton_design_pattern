@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        OrderProcessingFactory.registerOrderType(OrderType.SHOES, ShoesOrder.class);
+        OrderProcessingFactory.createOrder(OrderType.SHOES);
 
         Order foodOrder = OrderProcessingFactory.createOrder(OrderType.FOOD);
         foodOrder.processOrder();
