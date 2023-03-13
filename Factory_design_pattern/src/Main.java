@@ -1,5 +1,5 @@
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InstantiationException, IllegalAccessException {
         OrderFactory foodFactory = OrderProcessingFactory.createOrder(OrderType.FOOD);
         foodFactory.createOrder();
         OrderFactory electronicsFactory = OrderProcessingFactory.createOrder(OrderType.ELECTRONICS);
