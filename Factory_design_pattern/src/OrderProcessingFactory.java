@@ -1,23 +1,17 @@
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.InvocationTargetException;
 
 public class OrderProcessingFactory {
-
-    private static final Map<OrderType, OrderFactory> ORDER_FACTORY_MAP = new HashMap<>();
-
-    static {
-        ORDER_FACTORY_MAP.put(OrderType.FOOD, new FoodOrderFactory());
-        ORDER_FACTORY_MAP.put(OrderType.CLOTHING, new ClothingOrderFactory());
-        ORDER_FACTORY_MAP.put(OrderType.ELECTRONICS, new ElectronicGadgetsOrderFactory());
-        ORDER_FACTORY_MAP.put(OrderType.SHOES, new ShoesOrderFactory());
+public static OrderFactory createOrder(OrderType orderType) {
+    String className = orderType.name() + "OrderFactory";
+    try {
+        Class<?> clazz = Class.forName(className);
+        return (OrderFactory) clazz.getDeclaredConstructor().newInstance();
+    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException  e) {
+        throw new IllegalArgumentException("Unsupported food type: " + orderType.name(), e);
+    } catch (InvocationTargetException e) {
+        throw new RuntimeException(e);
     }
+}
 
-    public static Order createOrder(OrderType orderType) {
-        OrderFactory orderFactory = ORDER_FACTORY_MAP.get(orderType);
-        if (orderFactory == null) {
-            throw new IllegalArgumentException("Invalid order type: " + orderType);
-        }
-        return orderFactory.createOrder();
-    }
+
 }

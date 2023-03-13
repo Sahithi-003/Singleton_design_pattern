@@ -1,3 +1,3 @@
 public interface OrderFactory {
-    Order createOrder();
+    void createOrder();
 }
