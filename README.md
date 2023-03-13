@@ -1,1 +1,1 @@
-# Singleton_design_pattern
+# Design_pattern
