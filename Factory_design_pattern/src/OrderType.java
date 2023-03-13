@@ -9,7 +9,7 @@ public enum OrderType {
         this.orderClass = orderClass;
     }
 
-    public OrderFactory getOrderClass() throws InstantiationException, IllegalAccessException {
-        return orderClass.newInstance();
+    public Class<? extends OrderFactory> getOrderClass() throws InstantiationException, IllegalAccessException {
+        return orderClass;
     }
 }
